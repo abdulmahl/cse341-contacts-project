@@ -15,6 +15,6 @@ mongodb.initDB((err) => {
     console.error(err);
   } else {
     app.listen(port);
-    console.log(`DB initialized, server Listening on port: ${port}`);
+    console.log(`DB initialized, server running on port: ${port}`);
   }
 });
