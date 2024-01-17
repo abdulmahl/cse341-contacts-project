@@ -10,7 +10,7 @@ app.use("/", route);
 
 mongodb.initDB((err) => {
   if (err) {
-    console.log(err);
+    console.error(err);
   } else {
     app.listen(port);
     console.log(`DB initialized, server Listening on port: ${port}`);
