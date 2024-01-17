@@ -8,7 +8,7 @@ const cors = require("cors");
 
 app.use(cors);
 app.use(bodyParser);
-app.use("/", route);
+app.use("/users", route);
 
 mongodb.initDB((err) => {
   if (err) {
