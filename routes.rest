@@ -1,2 +1,50 @@
-# Returns all the users.
+### Returns all the users.
 GET http://localhost:3000/users/
+
+
+### Returns a user by their _id.
+GET http://localhost:3000/users/65a027228980e4b5beca12db
+
+
+### Inserts a new user into our database.
+POST http://localhost:3000/users/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "fullname": {
+        "firstname": "Louisa",
+        "lastname": "Blake",
+    },
+    "email": "blakeloui@byui.edu",
+    "favoriteColor": "Hotpink",
+    "birthdate": "1991 April 11",
+}
+
+Expected Response:
+Status: 200 No Content (or appropriate status)
+
+
+### Updates a user.
+PATCH http://localhost:3000/users/65a027228980e4b5beca12db HTTP/1.1
+Content-Type: application/json
+
+{
+    "fullname": {
+        "firstname": "Louisa",
+        "lastname": "Blake",
+    },
+    "email": "blakeloui@byui.edu",
+    "favoriteColor": "Hotpink",
+    "birthdate": "1991 April 11",
+}
+
+Expected Response:
+Status: 204 OK (or appropriate status)
+
+
+### Deletes user by their _id.
+DELETE http://localhost:3000/users/
+
+Expected Response:
+
+Status: 200 OK (or appropriate status)

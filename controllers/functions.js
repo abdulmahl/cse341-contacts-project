@@ -1,5 +1,5 @@
 const mongodb = require("../database/connect");
-const ObjectId = require("mongodb").ObjectId;
+const { ObjectId } = require("mongodb");
 
 const getAll = async (req, res) => {
   const result = await mongodb.getDB().collection("users").find();
@@ -22,41 +22,41 @@ const getOneById = async (req, res) => {
 
 const createUser = async (req, res) => {
   const user = {
-    firstname: req.body.firstname,
-    lastname: req.body.lastname,
+    fullname: {
+      firstname: req.body.firstname,
+      lastname: req.body.lastname,
+    },
     email: req.body.email,
-    favColor: req.body.favColor,
-    birthday: req.body.birthday,
+    favoriteColor: req.body.favoriteColor,
+    birthdate: req.body.birthdate,
   };
   const response = await mongodb.getDB().collection("users").insertOne(user);
   if (response.acknowledged > 0) {
     res.status(204).send();
   } else {
-    res
-      .status(500)
-      .json(response.error || "Error creating user");
+    res.status(500).json(response.error || "Error inserting user");
   }
 };
 
 const updateUser = async (req, res) => {
   const userId = Object(req.params._id);
   const user = {
-    firstname: req.body.firstname,
-    lastname: req.body.lastname,
+    fullname: {
+      firstname: req.body.firstname,
+      lastname: req.body.lastname,
+    },
     email: req.body.email,
-    favColor: req.body.favColor,
-    birthday: req.body.birthday,
+    favoriteColor: req.body.favoriteColor,
+    birthdate: req.body.birthdate,
   };
   const response = await mongodb
     .getDB()
     .collection("users")
     .replaceOne({ _id: userId }, user);
   if (response.modifiedCount > 0) {
-    res.status(200).send();
+    res.status(204).send(response);
   } else {
-    res
-      .status(500)
-      .json(response.error || "Error updating user");
+    res.status(500).json(response.error || "Error updating user");
   }
 };
 
@@ -73,4 +73,10 @@ const deleteUser = async (req, res) => {
   }
 };
 
-module.exports = { getOneById, getAll, createUser, updateUser, deleteUser };
+module.exports = {
+  getOneById,
+  getAll,
+  createUser,
+  updateUser,
+  deleteUser,
+};

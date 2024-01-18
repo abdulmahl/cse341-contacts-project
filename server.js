@@ -6,15 +6,16 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json());
 app.use("/users", require("./routes/router"));
 
-mongodb.initDB((err, res) => {
+mongodb.initDB((err) => {
   if (err) {
-    console.error(err);
-    res.status(500).send("Error initializing database");
+    console.error("Error initializing database", err);
+    process.exit(1);
   } else {
-    app.listen(port);
-    console.log(`DB initialized, server running on port: ${port}`);
+    app.listen(port, () => {
+      console.log(`DB initialized, server running on port: ${port}`);
+    });
   }
 });

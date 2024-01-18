@@ -5,13 +5,12 @@ const user = new MongoClient(uri);
 
 let _db;
 
-const initDB = async (callback) => {
+const initDB = (callback) => {
   if (_db) {
     console.log("Database initialized");
     return callback(null, _db);
   }
-  await user
-    .connect(uri)
+  user.connect(uri)
     .then((client) => {
       _db = client.db();
       callback(null, _db);
@@ -29,9 +28,9 @@ const getDB = () => {
   }
 };
 
-const closeDB = async () => {
+const closeDB = () => {
   if (_db) {
-    await user.close();
+    user.close();
     console.log("Database connection closed");
   }
 };
