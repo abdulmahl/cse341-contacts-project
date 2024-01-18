@@ -1,1 +1,2 @@
+# Returns all the users.
 GET http://localhost:3000/users/
