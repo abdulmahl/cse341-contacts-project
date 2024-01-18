@@ -1,12 +1,12 @@
-const indexRouter = require("express").Router();
+const router = require("express").Router();
 
-indexRouter.use("/", require("./swagger"));
+router.use("/", require("./swagger"));
 
-indexRouter.get("/", (req, res) => {
-  //#swagger.tags=["Hello Swagger"]
-  res.send("Hello Swagger");
+router.get("/", (req, res) => {
+  //#swagger.tags=["I Got Swagger"]
+  res.send("Hello Swagger Contacts");
 });
 
-indexRouter.use("/users", require("./router"));
+router.use("/contacts", require("./router"));
 
-module.exports = indexRouter;
+module.exports = router;

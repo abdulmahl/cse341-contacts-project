@@ -1,7 +1,7 @@
 const { MongoClient } = require("mongodb");
 require("dotenv/config");
 const uri = process.env.MONGO_URI;
-const user = new MongoClient(uri);
+const contact = new MongoClient(uri);
 
 let _db;
 
@@ -10,7 +10,7 @@ const initDB = (callback) => {
     console.log("Database initialized");
     return callback(null, _db);
   }
-  user.connect(uri)
+  contact.connect(uri)
     .then((client) => {
       _db = client.db();
       callback(null, _db);
@@ -30,7 +30,7 @@ const getDB = () => {
 
 const closeDB = () => {
   if (_db) {
-    user.close();
+    contact.close();
     console.log("Database connection closed");
   }
 };
