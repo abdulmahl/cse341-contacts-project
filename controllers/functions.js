@@ -6,7 +6,7 @@ const getAll = async (req, res) => {
   result.toArray().then((users) => {
     res.setHeader("Content-Type", "application/json");
     res.status(200).json(users);
-    console.log(typeof(users));
+    console.log(users);
   });
 };
 
