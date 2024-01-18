@@ -1,5 +1,4 @@
 const express = require("express");
-const route = require("./routes/router");
 const port = process.env.PORT || 3000;
 const app = express();
 const mongodb = require("./database/connect");
@@ -8,7 +7,7 @@ const cors = require("cors");
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use("/users", route);
+app.use("/users", require("./routes/router"));
 
 mongodb.initDB((err, res) => {
   if (err) {
