@@ -21,7 +21,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/users", require("./routes/router"));
+app.use("/", require("./routes/router"));
 
 mongodb.initDB((err) => {
   if (err) {
