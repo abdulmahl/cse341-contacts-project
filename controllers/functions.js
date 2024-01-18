@@ -22,10 +22,8 @@ const getOneById = async (req, res) => {
 
 const createUser = async (req, res) => {
   const user = {
-    fullname: {
-      firstname: req.body.firstname,
-      lastname: req.body.lastname,
-    },
+    firstname: req.body.firstname,
+    lastname: req.body.lastname,
     email: req.body.email,
     favoriteColor: req.body.favoriteColor,
     birthdate: req.body.birthdate,
@@ -39,12 +37,10 @@ const createUser = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  const userId = Object(req.params.id);
+  const userId = new ObjectId(req.params.id);
   const user = {
-    fullname: {
-      firstname: req.body.firstname,
-      lastname: req.body.lastname,
-    },
+    firstname: req.body.firstname,
+    lastname: req.body.lastname,
     email: req.body.email,
     favoriteColor: req.body.favoriteColor,
     birthdate: req.body.birthdate,
@@ -52,24 +48,33 @@ const updateUser = async (req, res) => {
   const response = await mongodb
     .getDB()
     .collection("users")
-    .replaceOne({ _id: userId }, user);
+    .updateOne({ _id: userId }, { $set: user });
+
   if (response.modifiedCount > 0) {
     res.status(204).send();
   } else {
-    res.status(500).json(response.error || "Error updating user");
+    console.error("Error updating user:", response);
+    res.status(500).json("Error updating user");
   }
 };
 
 const deleteUser = async (req, res) => {
-  const userId = Object(req.params.id);
-  const response = await mongodb
-    .getDB()
-    .collection("users")
-    .deleteOne({ _id: userId }, true);
-  if (response.deletedCount > 0) {
-    res.status(200).send();
-  } else {
-    res.status(500).json(response.error || "Error deleting user");
+  const userId = new ObjectId(req.params.id);
+  try {
+    const response = await mongodb
+      .getDB()
+      .collection("users")
+      .deleteOne({ _id: userId });
+
+    if (response.deletedCount > 0) {
+      res.status(200).send();
+    } else {
+      console.error("Error deleting user:", response);
+      res.status(500).json("Error deleting user");
+    }
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    res.status(500).json("Error deleting user");
   }
 };
 
