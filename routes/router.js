@@ -5,6 +5,6 @@ route.get("/", controller.getAll);
 route.get("/:id", controller.getOneById);
 route.post("/", controller.createUser);
 route.put("/:id", controller.updateUser);
-route.delete("/id", controller.deleteUser);
+route.delete("/:id", controller.deleteUser);
 
 module.exports = route;
