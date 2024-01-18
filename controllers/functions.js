@@ -12,10 +12,12 @@ const getAll = async (req, res) => {
 
 const getOneById = async (req, res) => {
   const objectId = new ObjectId(req.params.id);
+
   const result = await mongodb
     .getDB()
     .collection("users")
     .findOne({ _id: objectId });
+
   res.setHeader("Content-Type", "application/json");
   res.status(200).json(result);
 };
@@ -28,7 +30,9 @@ const createUser = async (req, res) => {
     favoriteColor: req.body.favoriteColor,
     birthdate: req.body.birthdate,
   };
+
   const response = await mongodb.getDB().collection("users").insertOne(user);
+
   if (response.acknowledged > 0) {
     res.status(204).send();
   } else {
@@ -45,6 +49,7 @@ const updateUser = async (req, res) => {
     favoriteColor: req.body.favoriteColor,
     birthdate: req.body.birthdate,
   };
+
   const response = await mongodb
     .getDB()
     .collection("users")
@@ -60,11 +65,12 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   const userId = new ObjectId(req.params.id);
+  
   const response = await mongodb
     .getDB()
     .collection("users")
     .deleteOne({ _id: userId });
-    
+
   if (response.deletedCount > 0) {
     res.status(200).send();
   } else {
