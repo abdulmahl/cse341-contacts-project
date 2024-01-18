@@ -60,20 +60,15 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   const userId = new ObjectId(req.params.id);
-  try {
-    const response = await mongodb
-      .getDB()
-      .collection("users")
-      .deleteOne({ _id: userId });
-
-    if (response.deletedCount > 0) {
-      res.status(200).send();
-    } else {
-      console.error("Error deleting user:", response);
-      res.status(500).json("Error deleting user");
-    }
-  } catch (error) {
-    console.error("Error deleting user:", error);
+  const response = await mongodb
+    .getDB()
+    .collection("users")
+    .deleteOne({ _id: userId });
+    
+  if (response.deletedCount > 0) {
+    res.status(200).send();
+  } else {
+    console.error("Error deleting user:", response);
     res.status(500).json("Error deleting user");
   }
 };

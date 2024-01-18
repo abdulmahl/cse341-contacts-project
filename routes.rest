@@ -33,4 +33,4 @@ Content-Type: application/json
 
 
 ### Deletes user by their _id.
-DELETE http://localhost:3000/users/65a924e0ba532814bbc3dfa1
+DELETE http://localhost:3000/users/65a92579a4e4d4f1adfaa8bf
