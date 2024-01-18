@@ -37,9 +37,9 @@ const createUser = async (req, res) => {
   const response = await mongodb.getDB().collection("users").insertOne(user);
 
   if (response.acknowledged > 0) {
-    res.status(204).send(`User created successfully`);
+    res.status(204).send(`Contact inserted successfully`);
   } else {
-    res.status(500).json(response.error || "Error inserting user");
+    res.status(500).json(response.error || "Error inserting contact");
   }
 };
 
@@ -60,10 +60,10 @@ const updateUser = async (req, res) => {
     .updateOne({ _id: userId }, { $set: user });
 
   if (response.modifiedCount > 0) {
-    res.status(204).send(`User updated successfully`);
+    res.status(204).send(`Contact updated successfully`);
   } else {
-    console.error("Error updating user:", response);
-    res.status(500).json("Error updating user");
+    console.error("Error updating contact:", response);
+    res.status(500).json("Error updating contact");
   }
 };
 
@@ -77,10 +77,10 @@ const deleteUser = async (req, res) => {
     .deleteOne({ _id: userId });
 
   if (response.deletedCount > 0) {
-    res.status(200).send(`User deleted successfully`);
+    res.status(200).send(`Contact deleted successfully`);
   } else {
-    console.error("Error deleting user:", response);
-    res.status(500).json("Error deleting user");
+    console.error("Error deleting contact:", response);
+    res.status(500).json("Error deleting contact");
   }
 };
 

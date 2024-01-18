@@ -1,14 +1,13 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Swagger API",
-    "description": "Users API",
+    "title": "Contacts API",
+    "description": "Swagger Contacts API",
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
+  "host": "https://contacts-project-cse341-gdy1.onrender.com",
   "basePath": "/",
   "schemes": [
-    "http",
     "https"
   ],
   "paths": {
@@ -25,16 +24,7 @@
         }
       }
     },
-    "/api-docs": {
-      "get": {
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
+    
     "/contacts/": {
       "get": {
         "tags": [
