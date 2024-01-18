@@ -11,24 +11,24 @@ POST http://localhost:3000/users/ HTTP/1.1
 Content-Type: application/json
 
 {
-    "firstname": "Zazu",
-    "lastname": "Kamalenga",
-    "email": "kamalengaza@byui.edu",
+    "email": "lauperc@byui.edu",
     "favoriteColor": "Mauve",
-    "birthdate": "1993 October 18"
+    "birthdate": "1990 October 18",
+    "firstname": "Cindy",
+    "lastname": "Lauper"
 }
 
 
 ### Updates a user by their _id.
-PUT http://localhost:3000/users/65a9206236cb4d9dd029dd75 HTTP/1.1
+PUT http://localhost:3000/users/65a028098980e4b5beca12dc HTTP/1.1
 Content-Type: application/json
 
 {
+    "email": "trejodan@byui.edu",
+    "favoriteColor": "Brown",
+    "birthdate": "1968 December 3",
     "firstname": "Danny",
-    "lastname": "Venter",
-    "email": "venterdan@byui.edu",
-    "favoriteColor": "Violet",
-    "birthdate": "1998 December 3"
+    "lastname": "Trejo"
 }
 
 

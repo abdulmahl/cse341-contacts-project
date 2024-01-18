@@ -34,7 +34,7 @@ const createUser = async (req, res) => {
   const response = await mongodb.getDB().collection("users").insertOne(user);
 
   if (response.acknowledged > 0) {
-    res.status(204).send();
+    res.status(204).send(`User created successfully`);
   } else {
     res.status(500).json(response.error || "Error inserting user");
   }
@@ -56,7 +56,7 @@ const updateUser = async (req, res) => {
     .updateOne({ _id: userId }, { $set: user });
 
   if (response.modifiedCount > 0) {
-    res.status(204).send();
+    res.status(204).send(`User updated successfully`);
   } else {
     console.error("Error updating user:", response);
     res.status(500).json("Error updating user");
@@ -65,14 +65,14 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   const userId = new ObjectId(req.params.id);
-  
+
   const response = await mongodb
     .getDB()
     .collection("users")
     .deleteOne({ _id: userId });
 
   if (response.deletedCount > 0) {
-    res.status(200).send();
+    res.status(200).send(`User deleted successfully`);
   } else {
     console.error("Error deleting user:", response);
     res.status(500).json("Error deleting user");
