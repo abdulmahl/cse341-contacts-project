@@ -6,7 +6,7 @@ const getAll = async (req, res) => {
   result.toArray().then((users) => {
     res.setHeader("Content-Type", "application/json");
     res.status(200).json(users);
-    console.log(users);
+    console.log(typeof(users));
   });
 };
 
@@ -51,7 +51,7 @@ const updateUser = async (req, res) => {
     .getDB()
     .collection("users")
     .replaceOne({ _id: userId }, user);
-  if (result.modifiedCount > 0) {
+  if (response.modifiedCount > 0) {
     res.status(200).send();
   } else {
     res
@@ -66,7 +66,7 @@ const deleteUser = async (req, res) => {
     .getDB()
     .collection("users")
     .deleteOne({ _id: userId }, true);
-  if (response.deletedOne > 0) {
+  if (response.deletedCount > 0) {
     res.status(200).send();
   } else {
     res.status(500).json(response.error || "Error deleting user");
