@@ -11,7 +11,7 @@ const getAll = async (req, res) => {
 };
 
 const getOneById = async (req, res) => {
-  const objectId = new ObjectId(req.params._id);
+  const objectId = new ObjectId(req.params.id);
   const result = await mongodb
     .getDB()
     .collection("users")
@@ -39,7 +39,7 @@ const createUser = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  const userId = Object(req.params._id);
+  const userId = Object(req.params.id);
   const user = {
     fullname: {
       firstname: req.body.firstname,
@@ -54,14 +54,14 @@ const updateUser = async (req, res) => {
     .collection("users")
     .replaceOne({ _id: userId }, user);
   if (response.modifiedCount > 0) {
-    res.status(204).send(response);
+    res.status(204).send();
   } else {
     res.status(500).json(response.error || "Error updating user");
   }
 };
 
 const deleteUser = async (req, res) => {
-  const userId = Object(req.params._id);
+  const userId = Object(req.params.id);
   const response = await mongodb
     .getDB()
     .collection("users")
