@@ -47,4 +47,4 @@ DELETE http://localhost:3000/users/
 
 Expected Response:
 
-Status: 200 OK (or appropriate status)
+Status: 204 OK (or appropriate status)
