@@ -8,8 +8,9 @@
   "host": "https://contacts-project-cse341-gdy1.onrender.com",
   "basePath": "/",
   "schemes": [
-    "http",
-    "https"
+    "https",
+    "http"
+
   ],
   "paths": {
     "/": {
