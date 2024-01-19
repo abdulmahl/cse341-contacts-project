@@ -5,9 +5,10 @@
     "description": "Swagger Contacts API",
     "version": "1.0.0"
   },
-  "host": "contacts-project-cse341-gdy1.onrender.com",
+  "host": "localhost:3000",
   "basePath": "/",
   "schemes": [
+    "http",
     "https"
   ],
   "paths": {
@@ -24,7 +25,6 @@
         }
       }
     },
-    
     "/contacts/": {
       "get": {
         "tags": [
