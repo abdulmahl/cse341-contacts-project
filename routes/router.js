@@ -4,8 +4,8 @@ const controller = require("../controllers/functions");
 route.get("/", controller.getAll);
 route.get("/:id", controller.getOneById);
 
-route.post("/", controller.createUser);
-route.put("/:id", controller.updateUser);
-route.delete("/:id", controller.deleteUser);
+route.post("/", controller.createContact);
+route.put("/:id", controller.updateContact);
+route.delete("/:id", controller.deleteContact);
 
 module.exports = route;

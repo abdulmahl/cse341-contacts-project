@@ -3,7 +3,7 @@ const { ObjectId } = require("mongodb");
 
 const getAll = async (req, res) => {
   //#swagger.tags=["Contacts"]
-  const result = await mongodb.getDB().collection("users").find();
+  const result = await mongodb.getDB().collection("contacts").find();
   result.toArray().then((users) => {
     res.setHeader("Content-Type", "application/json");
     res.status(200).json(users);
@@ -17,16 +17,16 @@ const getOneById = async (req, res) => {
 
   const result = await mongodb
     .getDB()
-    .collection("users")
+    .collection("contacts")
     .findOne({ _id: objectId });
 
   res.setHeader("Content-Type", "application/json");
   res.status(200).json(result);
 };
 
-const createUser = async (req, res) => {
+const createContact = async (req, res) => {
   //#swagger.tags=["Contacts"]
-  const user = {
+  const contact = {
     firstname: req.body.firstname,
     lastname: req.body.lastname,
     email: req.body.email,
@@ -34,7 +34,7 @@ const createUser = async (req, res) => {
     birthdate: req.body.birthdate,
   };
 
-  const response = await mongodb.getDB().collection("users").insertOne(user);
+  const response = await mongodb.getDB().collection("contacts").insertOne(contact);
 
   if (response.acknowledged > 0) {
     res.status(204).send(`Contact inserted successfully`);
@@ -43,10 +43,10 @@ const createUser = async (req, res) => {
   }
 };
 
-const updateUser = async (req, res) => {
+const updateContact = async (req, res) => {
   //#swagger.tags=["Contacts"]
-  const userId = new ObjectId(req.params.id);
-  const user = {
+  const contactId = new ObjectId(req.params.id);
+  const contact = {
     firstname: req.body.firstname,
     lastname: req.body.lastname,
     email: req.body.email,
@@ -56,8 +56,8 @@ const updateUser = async (req, res) => {
 
   const response = await mongodb
     .getDB()
-    .collection("users")
-    .updateOne({ _id: userId }, { $set: user });
+    .collection("contacts")
+    .updateOne({ _id: contactId }, { $set: contact });
 
   if (response.modifiedCount > 0) {
     res.status(204).send(`Contact updated successfully`);
@@ -67,14 +67,14 @@ const updateUser = async (req, res) => {
   }
 };
 
-const deleteUser = async (req, res) => {
+const deleteContact = async (req, res) => {
   //#swagger.tags=["Contacts"]
-  const userId = new ObjectId(req.params.id);
+  const contactId = new ObjectId(req.params.id);
 
   const response = await mongodb
     .getDB()
-    .collection("users")
-    .deleteOne({ _id: userId });
+    .collection("contacts")
+    .deleteOne({ _id: contactId });
 
   if (response.deletedCount > 0) {
     res.status(200).send(`Contact deleted successfully`);
@@ -87,7 +87,7 @@ const deleteUser = async (req, res) => {
 module.exports = {
   getOneById,
   getAll,
-  createUser,
-  updateUser,
-  deleteUser,
+  createContact,
+  updateContact,
+  deleteContact,
 };
