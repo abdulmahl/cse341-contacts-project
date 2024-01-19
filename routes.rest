@@ -1,5 +1,10 @@
+### Published link.
+GET https://contacts-project-cse341-gdy1.onrender.com/
+
+
 ### Returns Welcome Message.
 GET http://localhost:3000
+
 
 ### Returns all the contacts.
 GET http://localhost:3000/contacts/
