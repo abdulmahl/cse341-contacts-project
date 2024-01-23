@@ -1,5 +1,6 @@
 const mongodb = require("../database/connect");
 const { ObjectId } = require("mongodb");
+const contactSchema = require("../models/validate");
 
 const getAll = async (req, res) => {
   //#swagger.tags=["Contacts"]
@@ -37,27 +38,29 @@ const getOneById = async (req, res) => {
   }
 };
 
-const Joi = require("joi");
-
 const createContact = async (req, res) => {
   //#swagger.tags=["Contacts"]
-  const contactSchema = Joi.object({
-    firstname: Joi.string().required(),
-    lastname: Joi.string().required(),
-    email: Joi.string().email().required(),
-    favoriteColor: Joi.string().required(),
+  const contact = {
+    firstname: req.body.firstname,
+    lastname: req.body.lastname,
+    email: req.body.email,
+    favoriteColor: req.body.favoriteColor,
     birthdate: req.body.birthdate,
-  });
+  };
+
+  const { error } = contactSchema.validate(contact);
+  if (error) {
+    return res
+      .status(422)
+      .json({ error: error.details.map((detail) => detail.message) });
+  }
 
   const response = await mongodb
     .getDB()
     .collection("contacts")
-    .insertOne(contactSchema);
-
+    .insertOne(contact);
   if (response.acknowledged > 0) {
     res.status(204).send();
-  } else {
-    res.status(500).json(response.error || "Error inserting contact");
   }
 };
 
@@ -77,16 +80,19 @@ const updateContact = async (req, res) => {
     birthdate: req.body.birthdate,
   };
 
+  const { error } = contactSchema.validate(contact);
+  if (error) {
+    return res
+      .status(422)
+      .json({ error: error.details.map((detail) => detail.message) });
+  }
+
   const response = await mongodb
     .getDB()
     .collection("contacts")
     .updateOne({ _id: contactId }, { $set: contact });
-
   if (response.modifiedCount > 0) {
     res.status(204).send();
-  } else {
-    console.error("Error updating contact:", response);
-    res.status(500).json("Error updating contact");
   }
 };
 
@@ -104,7 +110,7 @@ const deleteContact = async (req, res) => {
     .deleteOne({ _id: contactId });
 
   if (response.deletedCount > 0) {
-    res.status(200).send(`Contact deleted successfully`);
+    res.status(200).send("Contact deleted successfully");
   } else {
     console.error("Error deleting contact:", response);
     res.status(500).json("Error deleting contact");
