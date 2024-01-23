@@ -19,6 +19,9 @@ const getAll = async (req, res) => {
 
 const getOneById = async (req, res) => {
   //#swagger.tags=["Contacts"]
+  if (!ObjectId.isValid(req.params.id)) {
+    res.status(422).json({ message: "Must use a valid contact id" });
+  }
   const objectId = new ObjectId(req.params.id);
   try {
     const result = await mongodb
@@ -56,6 +59,9 @@ const createContact = async (req, res) => {
 
 const updateContact = async (req, res) => {
   //#swagger.tags=["Contacts"]
+  if (!ObjectId.isValid(req.params.id)) {
+    res.status(422).json({ message: "Must use a valid contact id" });
+  }
   const contactId = new ObjectId(req.params.id);
   const contact = {
     firstname: req.body.firstname,
@@ -80,8 +86,10 @@ const updateContact = async (req, res) => {
 
 const deleteContact = async (req, res) => {
   //#swagger.tags=["Contacts"]
+  if (!ObjectId.isValid(req.params.id)) {
+    res.status(422).json({ message: "Must use a valid contact id" });
+  }
   const contactId = new ObjectId(req.params.id);
-
   const response = await mongodb
     .getDB()
     .collection("contacts")
