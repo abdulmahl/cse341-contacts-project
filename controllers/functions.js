@@ -3,25 +3,33 @@ const { ObjectId } = require("mongodb");
 
 const getAll = async (req, res) => {
   //#swagger.tags=["Contacts"]
-  const result = await mongodb.getDB().collection("contacts").find();
-  result.toArray().then((contacts) => {
-    res.setHeader("Content-Type", "application/json");
-    res.status(200).json(contacts);
-    // console.log(contacts);
-  });
+  try {
+    const result = await mongodb.getDB().collection("contacts").find();
+    result.toArray().then((contacts) => {
+      res.setHeader("Content-Type", "application/json");
+      res.status(200).json(contacts);
+      // console.log(contacts);
+    });
+  } catch (err) {
+    if (err) {
+      res.status(422).json({ message: err });
+    }
+  }
 };
 
 const getOneById = async (req, res) => {
   //#swagger.tags=["Contacts"]
   const objectId = new ObjectId(req.params.id);
-
-  const result = await mongodb
-    .getDB()
-    .collection("contacts")
-    .findOne({ _id: objectId });
-
-  res.setHeader("Content-Type", "application/json");
-  res.status(200).json(result);
+  try {
+    const result = await mongodb
+      .getDB()
+      .collection("contacts")
+      .findOne({ _id: objectId });
+    res.setHeader("Content-Type", "application/json");
+    res.status(200).json(result);
+  } catch (err) {
+    res.status(422).json({ message: err });
+  }
 };
 
 const createContact = async (req, res) => {
@@ -34,7 +42,10 @@ const createContact = async (req, res) => {
     birthdate: req.body.birthdate,
   };
 
-  const response = await mongodb.getDB().collection("contacts").insertOne(contact);
+  const response = await mongodb
+    .getDB()
+    .collection("contacts")
+    .insertOne(contact);
 
   if (response.acknowledged > 0) {
     res.status(204).send();

@@ -1,5 +1,5 @@
 ### Published link.
-GET https://contacts-project-cse341-gdy1.onrender.com/
+GET https://contacts-project-cse341-gdy1.onrender.com/api-docs
 
 
 ### Returns Welcome Message.
