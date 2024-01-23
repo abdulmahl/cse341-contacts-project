@@ -20,7 +20,7 @@ const getAll = async (req, res) => {
 const getOneById = async (req, res) => {
   //#swagger.tags=["Contacts"]
   if (!ObjectId.isValid(req.params.id)) {
-    res.status(422).json({ message: "Must use a valid contact id" });
+    res.status(422).json({ message: "Error: must use a valid contact id to get a contact!" });
   }
   const objectId = new ObjectId(req.params.id);
   try {
@@ -60,7 +60,7 @@ const createContact = async (req, res) => {
 const updateContact = async (req, res) => {
   //#swagger.tags=["Contacts"]
   if (!ObjectId.isValid(req.params.id)) {
-    res.status(422).json({ message: "Must use a valid contact id" });
+    res.status(422).json({ message: "Error: must use a valid contact id to update a contact!" });
   }
   const contactId = new ObjectId(req.params.id);
   const contact = {
@@ -87,7 +87,7 @@ const updateContact = async (req, res) => {
 const deleteContact = async (req, res) => {
   //#swagger.tags=["Contacts"]
   if (!ObjectId.isValid(req.params.id)) {
-    res.status(422).json({ message: "Must use a valid contact id" });
+    res.status(422).json({ message: "Error: must use a valid contact id to delete a contact!" });
   }
   const contactId = new ObjectId(req.params.id);
   const response = await mongodb
