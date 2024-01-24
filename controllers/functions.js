@@ -6,9 +6,9 @@ const getAll = async (req, res) => {
   //#swagger.tags=["Contacts"]
   try {
     const result = await mongodb.getDB().collection("contacts").find();
-    result.toArray().then((contacts) => {
-      res.setHeader("Content-Type", "application/json");
-      res.status(200).json(contacts);
+    result.toArray().then(() => {
+      // res.setHeader("Content-Type", "application/json");
+      res.status(200).json(result);
       // console.log(contacts);
     });
   } catch (err) {
