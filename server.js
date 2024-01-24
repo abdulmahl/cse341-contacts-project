@@ -15,17 +15,18 @@ app.use((req, res, next) => {
   );
   res.setHeader(
     "Access-Control-Allow-Methods",
-    "GET, POST, PUT, DELETE, OPTIONS "
+    "GET, POST, PUT, DELETE, OPTIONS"
   );
+  res.status(200);
   next();
 });
 
-app.use("/", require("./routes"));
+app.use("/", require("./routes/index"));
 
 mongodb.initDB((err) => {
   if (err) {
     console.error("Error initializing database", err);
-    process.exit(1);
+    process.exit(0);
   } else {
     app.listen(port, () => {
       console.log(`DB initialized, server running on port: ${port}`);
