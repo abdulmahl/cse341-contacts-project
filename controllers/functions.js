@@ -4,11 +4,11 @@ const Contact = require("../models/contact");
 
 const getAll = async (req, res) => {
   try {
-  //#swagger.tags=["All contacts"]
+    //#swagger.tags=["All contacts"]
     const contacts = await Contact.find();
     res.status(200).json(contacts);
   } catch (err) {
-    res.status(500).json({ error: "Internal server error" });
+    res.status(422).json({ message: err });
   }
 };
 
@@ -20,7 +20,7 @@ const getOneById = async (req, res) => {
   }
   const objectId = new ObjectId(req.params.id);
   try {
-  //#swagger.tags=["One contact by id"]
+    //#swagger.tags=["One contact by id"]
     const result = await Contact.findOne({ _id: objectId });
     if (!result) {
       return res.status(404).json({ error: "Contact not found" });
@@ -42,10 +42,12 @@ const createContact = async (req, res) => {
 
   const { error } = joiContact.validate(contact);
   if (error) {
-    return res.status(422).json({ error: error.details.map((detail) => detail.message) });
+    return res
+      .status(422)
+      .json({ error: error.details.map((detail) => detail.message) });
   }
   try {
-  //#swagger.tags=["Create a contact"]
+    //#swagger.tags=["Create a contact"]
     const response = await Contact.create(contact);
     res.status(201).json(response);
   } catch (err) {
@@ -70,11 +72,13 @@ const updateContact = async (req, res) => {
 
   const { error } = joiContact.validate(contact);
   if (error) {
-    return res.status(422).json({ error: error.details.map((detail) => detail.message) });
+    return res
+      .status(422)
+      .json({ error: error.details.map((detail) => detail.message) });
   }
 
   try {
-  //#swagger.tags=["Update contact by id"]
+    //#swagger.tags=["Update contact by id"]
     const response = await Contact.updateOne(
       { _id: contactId },
       { $set: contact }
@@ -97,7 +101,7 @@ const deleteContact = async (req, res) => {
   }
   const contactId = new ObjectId(req.params.id);
   try {
-  //#swagger.tags=["Delete contact by id"]
+    //#swagger.tags=["Delete contact by id"]
     const response = await Contact.deleteOne({ _id: contactId });
     if (response.deletedCount > 0) {
       res.status(200).json({ message: "Contact deleted successfully" });
@@ -111,8 +115,8 @@ const deleteContact = async (req, res) => {
 };
 
 module.exports = {
-  getOneById,
   getAll,
+  getOneById,
   createContact,
   updateContact,
   deleteContact,
