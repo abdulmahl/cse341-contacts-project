@@ -20,7 +20,7 @@ const getOneById = async (req, res) => {
   }
   const objectId = new ObjectId(req.params.id);
   try {
-    //#swagger.tags=["One contact by id"]
+    //#swagger.tags=["Get contact by id"]
     const result = await Contact.findOne({ _id: objectId });
     if (!result) {
       return res.status(404).json({ error: "Contact not found" });

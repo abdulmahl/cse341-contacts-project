@@ -27,15 +27,15 @@
     "/contacts/": {
       "get": {
         "tags": [
-          "All contacts"
+          "Get all contacts"
         ],
         "description": "",
         "responses": {
           "200": {
             "description": "OK"
           },
-          "500": {
-            "description": "Internal Server Error"
+          "422": {
+            "description": "Unprocessable Entity"
           }
         }
       }
@@ -43,7 +43,7 @@
     "/contacts/{id}": {
       "get": {
         "tags": [
-          "One contact by id"
+          "Get contact by id"
         ],
         "description": "",
         "parameters": [
