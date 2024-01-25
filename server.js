@@ -1,7 +1,7 @@
 const express = require("express");
 const port = process.env.PORT || 3000;
 const app = express();
-const mongodb = require("./database/connect");
+require("./database/connect");
 const cors = require("cors");
 
 app.use(cors());
@@ -23,13 +23,6 @@ app.use((req, res, next) => {
 
 app.use("/", require("./routes"));
 
-mongodb.initDB((err) => {
-  if (err) {
-    console.error("Error initializing database", err);
-    process.exit(0);
-  } else {
-    app.listen(port, () => {
-      console.log(`DB initialized, server running on port: ${port}`);
-    });
-  }
+app.listen(port, () => {
+  console.log(`Server running on port: ${port}`);
 });

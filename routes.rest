@@ -19,25 +19,25 @@ POST http://localhost:3000/contacts/createContact HTTP/1.1
 Content-Type: application/json
 
 {
-    "email": "mahlsire@byui.edu",
-    "favoriteColor": "Maroon",
-    "birthdate": "1996 April 13",
-    "firstname": "Sire",
-    "lastname": "Mahlangu",
+    "email": "prattci@byui.edu",
+    "favoriteColor": "Purple",
+    "birthdate": "1998 September 11",
+    "firstname": "Lucinda",
+    "lastname": "Pratt",
     "timestamp": null
 }
 
 
 ### Updates a contact by their _id.
-PUT http://localhost:3000/contacts/65a028098980e4b5beca12dc HTTP/1.1
+PUT http://localhost:3000/contacts/65b2014965d8692abc636b33 HTTP/1.1
 Content-Type: application/json
 
 {
-    "email": "blackj@byui.edu",
-    "favoriteColor": "Brown",
-    "birthdate": "1945 April 13",
-    "firstname": "Jack",
-    "lastname": "Black"
+    "email": "blanchett@byui.edu",
+    "favoriteColor": "Blue",
+    "birthdate": "1995 April 23",
+    "firstname": "Kate",
+    "lastname": "Blanchet"
 }
 
 

@@ -1,45 +1,37 @@
-const mongodb = require("../database/connect");
 const { ObjectId } = require("mongodb");
-const contactSchema = require("../models/validate");
+const joiContact = require("../models/validate");
+const Contact = require("../models/contact");
 
 const getAll = async (req, res) => {
-  //#swagger.tags=["Contacts"]
   try {
-    const result = await mongodb.getDB().collection("contacts").find();
-    result.toArray().then(() => {
-      // res.setHeader("Content-Type", "application/json");
-      res.status(200).json(result);
-      // console.log(contacts);
-    });
+  //#swagger.tags=["All contacts"]
+    const contacts = await Contact.find();
+    res.status(200).json(contacts);
   } catch (err) {
-    if (err) {
-      res.status(422).json({ message: err });
-    }
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 
 const getOneById = async (req, res) => {
-  //#swagger.tags=["Contacts"]
   if (!ObjectId.isValid(req.params.id)) {
-    res.status(422).json({
-      message: "Error: must use a valid contact id to get a contact!",
+    return res.status(422).json({
+      error: "Invalid contact id",
     });
   }
   const objectId = new ObjectId(req.params.id);
   try {
-    const result = await mongodb
-      .getDB()
-      .collection("contacts")
-      .findOne({ _id: objectId });
-    res.setHeader("Content-Type", "application/json");
+  //#swagger.tags=["One contact by id"]
+    const result = await Contact.findOne({ _id: objectId });
+    if (!result) {
+      return res.status(404).json({ error: "Contact not found" });
+    }
     res.status(200).json(result);
   } catch (err) {
-    res.status(422).json({ message: err });
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 
 const createContact = async (req, res) => {
-  //#swagger.tags=["Contacts"]
   const contact = {
     firstname: req.body.firstname,
     lastname: req.body.lastname,
@@ -48,27 +40,23 @@ const createContact = async (req, res) => {
     birthdate: req.body.birthdate,
   };
 
-  const { error } = contactSchema.validate(contact);
+  const { error } = joiContact.validate(contact);
   if (error) {
-    return res
-      .status(422)
-      .json({ error: error.details.map((detail) => detail.message) });
+    return res.status(422).json({ error: error.details.map((detail) => detail.message) });
   }
-
-  const response = await mongodb
-    .getDB()
-    .collection("contacts")
-    .insertOne(contact);
-  if (response.acknowledged > 0) {
-    res.status(204).send();
+  try {
+  //#swagger.tags=["Create a contact"]
+    const response = await Contact.create(contact);
+    res.status(201).json(response);
+  } catch (err) {
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 
 const updateContact = async (req, res) => {
-  //#swagger.tags=["Contacts"]
   if (!ObjectId.isValid(req.params.id)) {
-    res.status(422).json({
-      message: "Error: must use a valid contact id to update a contact!",
+    return res.status(422).json({
+      error: "Invalid contact id",
     });
   }
   const contactId = new ObjectId(req.params.id);
@@ -80,40 +68,45 @@ const updateContact = async (req, res) => {
     birthdate: req.body.birthdate,
   };
 
-  const { error } = contactSchema.validate(contact);
+  const { error } = joiContact.validate(contact);
   if (error) {
-    return res
-      .status(422)
-      .json({ error: error.details.map((detail) => detail.message) });
+    return res.status(422).json({ error: error.details.map((detail) => detail.message) });
   }
 
-  const response = await mongodb
-    .getDB()
-    .collection("contacts")
-    .updateOne({ _id: contactId }, { $set: contact });
-  if (response.modifiedCount > 0) {
-    res.status(204).send();
+  try {
+  //#swagger.tags=["Update contact by id"]
+    const response = await Contact.updateOne(
+      { _id: contactId },
+      { $set: contact }
+    );
+    if (response.modifiedCount > 0) {
+      res.status(204).send();
+    } else {
+      res.status(404).json({ error: "Contact not found" });
+    }
+  } catch (err) {
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 
 const deleteContact = async (req, res) => {
-  //#swagger.tags=["Contacts"]
   if (!ObjectId.isValid(req.params.id)) {
-    res.status(422).json({
-      message: "Error: must use a valid contact id to delete a contact!",
+    return res.status(422).json({
+      error: "Invalid contact id",
     });
   }
   const contactId = new ObjectId(req.params.id);
-  const response = await mongodb
-    .getDB()
-    .collection("contacts")
-    .deleteOne({ _id: contactId });
-
-  if (response.deletedCount > 0) {
-    res.status(200).send("Contact deleted successfully");
-  } else {
-    console.error("Error deleting contact:", response);
-    res.status(500).json("Error deleting contact");
+  try {
+  //#swagger.tags=["Delete contact by id"]
+    const response = await Contact.deleteOne({ _id: contactId });
+    if (response.deletedCount > 0) {
+      res.status(200).json({ message: "Contact deleted successfully" });
+    } else {
+      res.status(404).json({ error: "Contact not found" });
+    }
+  } catch (err) {
+    console.error("Error deleting contact:", err);
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 

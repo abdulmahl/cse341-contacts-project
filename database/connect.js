@@ -1,38 +1,20 @@
-const { MongoClient } = require("mongodb");
+const mongoose = require("mongoose");
 require("dotenv/config");
 const uri = process.env.MONGO_URI;
-const contact = new MongoClient(uri);
 
-let _db;
+mongoose
+  .connect(uri)
+  .then(() => {
+    console.log("Mongodb database initialized...");
+  })
+  .catch((err) => {
+    console.error("Mongodb database NOT initialized...", err);
+  });
 
-const initDB = (callback) => {
-  if (_db) {
-    console.log("Database initialized");
-    return callback(null, _db);
-  }
-  contact.connect(uri)
-    .then((client) => {
-      _db = client.db();
-      callback(null, _db);
-    })
-    .catch((err) => {
-      callback(err);
-    });
-};
+process.on("SIGINT", () => {
+  mongoose.connection.close();
+  console.log("Mongodb connection closed!");
+  process.exit(0);
+});
 
-const getDB = () => {
-  if (!_db) {
-    console.log("Database not initialized");
-  } else {
-    return _db;
-  }
-};
-
-const closeDB = () => {
-  if (_db) {
-    contact.close();
-    console.log("Database connection closed");
-  }
-};
-
-module.exports = { initDB, getDB, closeDB };
+module.exports = mongoose;
