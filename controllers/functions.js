@@ -4,7 +4,7 @@ const Contact = require("../models/contact");
 
 const getAll = async (req, res) => {
   try {
-    //#swagger.tags=["All contacts"]
+    //#swagger.tags=["Get all contacts"]
     const contacts = await Contact.find();
     res.status(200).json(contacts);
   } catch (err) {
